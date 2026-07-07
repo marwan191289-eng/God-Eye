@@ -1,0 +1,1 @@
+- [WhaleEye data truth](whaleeye-data-truth.md) — All data is Binance REST polling (1–15s), NOT WebSocket. RL agent is browser-only REINFORCE from scratch each session.

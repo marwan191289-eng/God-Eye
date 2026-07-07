@@ -1,0 +1,16 @@
+# TradeXRay AI
+
+> AI-powered crypto trading intelligence platform: real-time signals, multi-layer probability scoring, and ATR-based risk management for Bitcoin, Ethereum, and altcoins.
+
+TradeXRay AI is a web platform that helps traders make data-driven decisions on Binance, Bybit, OKX, and other exchanges. It combines AI-powered probability scoring, sentiment analysis, and 20+ technical indicators in one workspace.
+
+## Pages
+
+- [Home](/): Overview of the TradeXRay AI platform and signal engine.
+- [Dashboard](/dashboard): Live signals, market overview, and portfolio insights.
+- [Subscriptions](/subscriptions): Plans, pricing, and access tiers.
+- [API Documentation](/api-docs): REST API reference for programmatic access to signals.
+
+## Optional
+
+- [Settings](/settings): User-facing account and preferences (auth required).

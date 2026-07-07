@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/whaleeye/"
+title = "WhaleEye — عين الحوت"
+version = "1.0.0"
+id = "artifacts/whaleeye"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/whaleeye/" ]
+localPort = 24790
+
+[services.development]
+run = "pnpm --filter @workspace/whaleeye run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/whaleeye", "run", "build" ]
+publicDir = "artifacts/whaleeye/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24790"
+BASE_PATH = "/whaleeye/"

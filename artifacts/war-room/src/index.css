@@ -1,0 +1,275 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   TradeXRay Design System — Professional Trading Platform Theme
+   All colors are HSL for consistency and theming support.
+═══════════════════════════════════════════════════════════════════════════════ */
+
+@layer base {
+  :root {
+    /* ── Light Mode ─────────────────────────────────────────────────────────── */
+    --background: 220 20% 97%;
+    --foreground: 222 47% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 8%;
+    --primary: 162 100% 38%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 92%;
+    --secondary-foreground: 222 47% 8%;
+    --muted: 220 14% 94%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 162 80% 94%;
+    --accent-foreground: 162 100% 25%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 88%;
+    --input: 220 13% 88%;
+    --ring: 162 100% 38%;
+    --radius: 0.625rem;
+
+    /* ── Trading Colors ────────────────────────────────────────────────────── */
+    --bull: 162 100% 38%;
+    --bull-muted: 162 60% 92%;
+    --bear: 0 84% 60%;
+    --bear-muted: 0 60% 94%;
+    --neutral: 38 92% 50%;
+    --neutral-muted: 38 80% 94%;
+
+    /* ── Sidebar ───────────────────────────────────────────────────────────── */
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 210 40% 92%;
+    --sidebar-primary: 162 100% 38%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 222 40% 14%;
+    --sidebar-accent-foreground: 210 40% 92%;
+    --sidebar-border: 222 40% 16%;
+    --sidebar-ring: 162 100% 38%;
+
+    /* ── Chart Colors ──────────────────────────────────────────────────────── */
+    --chart-1: 162 100% 38%;
+    --chart-2: 217 91% 60%;
+    --chart-3: 38 92% 50%;
+    --chart-4: 0 84% 60%;
+    --chart-5: 271 91% 65%;
+  }
+
+  .dark {
+    /* ── Dark Mode — Professional Trading Dark ─────────────────────────────── */
+    --background: 222 47% 5%;
+    --foreground: 210 40% 95%;
+    --card: 222 47% 7%;
+    --card-foreground: 210 40% 95%;
+    --popover: 222 47% 7%;
+    --popover-foreground: 210 40% 95%;
+    --primary: 162 100% 41%;
+    --primary-foreground: 222 47% 5%;
+    --secondary: 222 40% 12%;
+    --secondary-foreground: 210 40% 95%;
+    --muted: 222 40% 10%;
+    --muted-foreground: 215 20% 55%;
+    --accent: 222 40% 14%;
+    --accent-foreground: 162 100% 65%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 210 40% 95%;
+    --border: 222 40% 14%;
+    --input: 222 40% 14%;
+    --ring: 162 100% 41%;
+
+    /* ── Trading Colors (Dark) ─────────────────────────────────────────────── */
+    --bull: 162 100% 41%;
+    --bull-muted: 162 60% 12%;
+    --bear: 0 84% 60%;
+    --bear-muted: 0 60% 12%;
+    --neutral: 38 92% 50%;
+    --neutral-muted: 38 80% 12%;
+
+    /* ── Sidebar (Dark) ────────────────────────────────────────────────────── */
+    --sidebar-background: 222 47% 4%;
+    --sidebar-foreground: 210 40% 90%;
+    --sidebar-primary: 162 100% 41%;
+    --sidebar-primary-foreground: 222 47% 5%;
+    --sidebar-accent: 222 40% 10%;
+    --sidebar-accent-foreground: 210 40% 90%;
+    --sidebar-border: 222 40% 12%;
+    --sidebar-ring: 162 100% 41%;
+
+    /* ── Chart Colors (Dark) ───────────────────────────────────────────────── */
+    --chart-1: 162 100% 41%;
+    --chart-2: 217 91% 60%;
+    --chart-3: 38 92% 50%;
+    --chart-4: 0 84% 60%;
+    --chart-5: 271 91% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+
+  /* ── Scrollbar Styling ─────────────────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-border rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-muted-foreground/40; }
+
+  /* ── Focus Styles ──────────────────────────────────────────────────────── */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* ── Selection ─────────────────────────────────────────────────────────── */
+  ::selection {
+    background-color: hsl(var(--primary) / 0.2);
+    color: hsl(var(--foreground));
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Trading-Specific Utility Classes
+═══════════════════════════════════════════════════════════════════════════════ */
+@layer utilities {
+  .text-bull { color: hsl(var(--bull)); }
+  .text-bear { color: hsl(var(--bear)); }
+  .text-neutral-trade { color: hsl(var(--neutral)); }
+  .bg-bull { background-color: hsl(var(--bull)); }
+  .bg-bear { background-color: hsl(var(--bear)); }
+  .bg-bull-muted { background-color: hsl(var(--bull-muted)); }
+  .bg-bear-muted { background-color: hsl(var(--bear-muted)); }
+  .border-bull { border-color: hsl(var(--bull)); }
+  .border-bear { border-color: hsl(var(--bear)); }
+
+  .glass {
+    @apply backdrop-blur-md border border-white/10;
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .glass-card { @apply glass rounded-xl shadow-xl; }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent;
+  }
+  .gradient-text-gold {
+    @apply bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent;
+  }
+
+  .glow-bull { box-shadow: 0 0 20px hsl(var(--bull) / 0.3), 0 0 40px hsl(var(--bull) / 0.1); }
+  .glow-bear { box-shadow: 0 0 20px hsl(var(--bear) / 0.3), 0 0 40px hsl(var(--bear) / 0.1); }
+  .glow-primary { box-shadow: 0 0 20px hsl(var(--primary) / 0.3); }
+
+  .stat-card {
+    @apply relative overflow-hidden rounded-xl border bg-card p-5 transition-all duration-300;
+    @apply hover:shadow-lg hover:-translate-y-0.5;
+  }
+  .stat-card::before {
+    content: "";
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: radial-gradient(circle at top right, hsl(var(--primary) / 0.08), transparent 60%);
+  }
+  .stat-card:hover::before { @apply opacity-100; }
+
+  .signal-long {
+    @apply bg-bull-muted text-bull border border-bull/30 font-bold text-xs px-2.5 py-1 rounded-md uppercase tracking-wider;
+  }
+  .signal-short {
+    @apply bg-bear-muted text-bear border border-bear/30 font-bold text-xs px-2.5 py-1 rounded-md uppercase tracking-wider;
+  }
+  .signal-win {
+    @apply bg-bull-muted text-bull border border-bull/30 font-bold text-xs px-2.5 py-1 rounded-md uppercase tracking-wider;
+  }
+  .signal-loss {
+    @apply bg-bear-muted text-bear border border-bear/30 font-bold text-xs px-2.5 py-1 rounded-md uppercase tracking-wider;
+  }
+  .signal-pending {
+    background-color: hsl(var(--neutral-muted));
+    color: hsl(var(--neutral));
+    @apply border font-bold text-xs px-2.5 py-1 rounded-md uppercase tracking-wider;
+    border-color: hsl(var(--neutral) / 0.3);
+  }
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 25%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Keyframe Animations
+═══════════════════════════════════════════════════════════════════════════════ */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px hsl(var(--primary) / 0.3); }
+  50% { box-shadow: 0 0 20px hsl(var(--primary) / 0.6); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Component Overrides
+═══════════════════════════════════════════════════════════════════════════════ */
+@layer components {
+  .trading-card {
+    @apply relative overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm;
+    @apply transition-all duration-200 hover:shadow-md hover:border-primary/30;
+  }
+
+  .data-table { @apply w-full text-sm; }
+  .data-table thead tr { @apply border-b bg-muted/50; }
+  .data-table thead th {
+    @apply h-10 px-4 text-left font-semibold text-muted-foreground tracking-wide text-xs uppercase;
+  }
+  .data-table tbody tr { @apply border-b transition-colors hover:bg-muted/30; }
+  .data-table tbody td { @apply px-4 py-3 align-middle; }
+
+  .metric-value { @apply text-3xl font-bold tracking-tight tabular-nums; }
+  .metric-label { @apply text-xs font-medium text-muted-foreground uppercase tracking-wider; }
+  .metric-change { @apply text-xs font-semibold flex items-center gap-1; }
+
+  .nav-link {
+    @apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium;
+    @apply text-sidebar-foreground/70 transition-all duration-150;
+    @apply hover:bg-sidebar-accent hover:text-sidebar-foreground;
+  }
+  .nav-link.active {
+    @apply bg-sidebar-accent text-sidebar-primary font-semibold;
+  }
+
+  .status-dot { @apply inline-block w-2 h-2 rounded-full; }
+  .status-dot.live { @apply bg-primary animate-pulse; }
+  .status-dot.offline { @apply bg-muted-foreground; }
+  .status-dot.warning { @apply bg-accent animate-pulse; }
+}
+
+/* ── RTL Support ───────────────────────────────────────────────────────────── */
+[dir="rtl"] .nav-link { @apply flex-row-reverse; }
+[dir="rtl"] .metric-change { @apply flex-row-reverse; }
+
+/* ── Print Styles ──────────────────────────────────────────────────────────── */
+@media print {
+  .no-print { display: none !important; }
+  body { @apply bg-white text-black; }
+}

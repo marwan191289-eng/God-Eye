@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>برومبت نهائي لمانوس — WhaleEye Truth-First Rebuild</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;700&display=swap');
+
+    :root{
+      --bg:#06101d;
+      --bg-2:#0a1730;
+      --panel:rgba(10,22,45,.78);
+      --line:#1b355a;
+      --text:#e8f0ff;
+      --muted:#93a8c7;
+      --cyan:#5ce6ff;
+      --teal:#00c9a8;
+      --gold:#f4c46d;
+      --red:#ff5f7a;
+      --green:#49d58a;
+      --violet:#9a8cff;
+      --ink:#07111f;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--text);
+      font-family:"Cairo",sans-serif;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(92,230,255,.08), transparent 22%),
+        radial-gradient(circle at 0% 100%, rgba(154,140,255,.08), transparent 20%),
+        linear-gradient(180deg,var(--bg),var(--bg-2));
+      min-height:100vh;
+    }
+
+    .noise{
+      position:fixed; inset:0; pointer-events:none; opacity:.05;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(255,255,255,.04) 0,
+          rgba(255,255,255,.04) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+      mix-blend-mode:soft-light;
+    }
+
+    .wrap{width:min(1180px, calc(100% - 32px)); margin:28px auto 64px}
+    .hero,.panel{
+      border:1px solid var(--line);
+      border-radius:26px;
+      background:linear-gradient(180deg, rgba(11,21,39,.88), rgba(7,14,27,.82));
+      box-shadow:0 18px 64px rgba(0,0,0,.32);
+      backdrop-filter:blur(16px);
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      padding:28px;
+    }
+
+    .hero::before,
+    .hero::after{
+      content:"";
+      position:absolute;
+      border-radius:50%;
+      filter:blur(16px);
+      pointer-events:none;
+    }
+
+    .hero::before{
+      width:260px; height:260px; top:-60px; left:-60px;
+      background:radial-gradient(circle, rgba(92,230,255,.18), transparent 68%);
+    }
+
+    .hero::after{
+      width:280px; height:280px; bottom:-90px; right:-50px;
+      background:radial-gradient(circle, rgba(154,140,255,.15), transparent 70%);
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(92,230,255,.18);
+      background:rgba(92,230,255,.06);
+      color:var(--cyan);
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+
+    h1{
+      margin:16px 0 10px;
+      font-size:clamp(30px,5vw,58px);
+      line-height:1.04;
+      font-weight:900;
+      letter-spacing:-.03em;
+      max-width:980px;
+    }
+
+    .sub{
+      margin:0;
+      max-width:980px;
+      color:var(--muted);
+      line-height:1.95;
+      font-size:16px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
+      margin-top:24px;
+    }
+
+    .stat{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      background:rgba(255,255,255,.02);
+    }
+
+    .stat small{
+      display:block;
+      color:var(--gold);
+      font-size:12px;
+      margin-bottom:8px;
+      font-weight:800;
+    }
+
+    .stat strong{
+      display:block;
+      font-size:15px;
+      line-height:1.8;
+    }
+
+    .panel{margin-top:22px; overflow:hidden}
+    .panel-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:18px 20px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+    }
+
+    .panel-head h2{
+      margin:0;
+      font-size:20px;
+      font-weight:900;
+      letter-spacing:-.02em;
+    }
+
+    .panel-body{padding:0}
+    .hint{
+      padding:14px 20px 0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.85;
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    button{
+      border:0;
+      cursor:pointer;
+      border-radius:14px;
+      padding:11px 15px;
+      font-family:inherit;
+      font-weight:800;
+      transition:transform .18s ease, filter .18s ease, background .18s ease;
+    }
+
+    button:hover{transform:translateY(-1px); filter:saturate(1.05)}
+    button:active{transform:translateY(0)}
+
+    .primary{
+      color:var(--ink);
+      background:linear-gradient(90deg,var(--cyan),var(--teal));
+      box-shadow:0 10px 24px rgba(0,201,168,.15);
+    }
+
+    .secondary{
+      color:var(--text);
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+    }
+
+    pre{
+      margin:0;
+      padding:22px;
+      white-space:pre-wrap;
+      word-break:break-word;
+      font-family:"IBM Plex Mono", monospace;
+      font-size:13px;
+      line-height:1.9;
+      color:#dbe8ff;
+      direction:ltr;
+      text-align:left;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.015), rgba(255,255,255,0));
+    }
+
+    .tagrow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .tag{
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .reveal{opacity:0; transform:translateY(18px)}
+    .ok{color:var(--green)}
+    .warn{color:var(--red)}
+    .mono{font-family:"IBM Plex Mono",monospace}
+
+    @media (max-width:900px){
+      .grid{grid-template-columns:1fr}
+      .panel-head{flex-direction:column; align-items:flex-start}
+      pre{font-size:12px}
+    }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+
+  <main class="wrap">
+    <section class="hero reveal">
+      <span class="eyebrow">WhaleEye • Truth-First • Institutional Rebuild</span>
+      <h1>برومبت نهائي حاسم لمانوس: أصلح، أعد بناء، وارتقِ بالمنصة — لكن بصدق كامل وبدون أي وهم</h1>
+      <p class="sub">
+        هذا البرومبت مبني على ما هو ظاهر فعلياً الآن: المشروع تم استنساخه وبناؤه محلياً، وتقرير التدقيق أوضح أن هناك أشياء حقيقية بالفعل
+        <span class="ok">مثل بعض التحليلات الرياضية وجودة البيانات والبناء المحلي</span>،
+        لكن أيضاً هناك فجوة واضحة بين مظهر المنصة وبين الحقيقة التشغيلية
+        <span class="warn">خصوصاً في live data claims, RL/AI depth, وبعض العناصر التقديمية المضللة أو الضعيفة</span>.
+        المطلوب الآن ليس تلوين المشكلة، بل تنفيذ نسخة مذهلة، دقيقة، صادقة، مبنية على بيانات حقيقية ومنطق عمل حقيقي.
+      </p>
+
+      <div class="grid">
+        <div class="stat">
+          <small>ما نعرفه الآن</small>
+          <strong>المشروع يُبنى محلياً، وبعض المكونات حقيقية، لكن توجد عناصر جزئية/وهمية/مضللة ويجب تنظيفها بالكامل.</strong>
+        </div>
+        <div class="stat">
+          <small>المطلوب</small>
+          <strong>إعادة رفع WhaleEye إلى مستوى مؤسسي عالمي: مبهر، سريع، دقيق، لحظي، explainable، وبدون أي ادعاءات كاذبة.</strong>
+        </div>
+        <div class="stat">
+          <small>المبدأ الحاكم</small>
+          <strong>الصدق أهم من الإبهار. أي شيء غير موصول أو غير موثوق يجب وسمه بوضوح أو تعطيله.</strong>
+        </div>
+      </div>
+
+      <div class="tagrow">
+        <span class="tag">No Fake AI</span>
+        <span class="tag">No Fake RL</span>
+        <span class="tag">No Placeholder Panels</span>
+        <span class="tag">Truth Audit First</span>
+        <span class="tag">Institutional UX</span>
+        <span class="tag">Realtime Integrity</span>
+      </div>
+    </section>
+
+    <section class="panel reveal">
+      <div class="panel-head">
+        <h2>البرومبت الجاهز للإرسال إلى Manus</h2>
+        <div class="actions">
+          <button class="primary" onclick="copyPrompt()">نسخ البرومبت</button>
+          <button class="secondary" onclick="downloadPrompt()">تنزيل TXT</button>
+        </div>
+      </div>
+      <div class="hint">
+        انسخه كما هو. هذا النص يفترض أن Manus أنجز clone/build/truth-audit بالفعل، وأنه الآن مطالب بالتنفيذ الفعلي الكامل — لا بالتقارير فقط.
+      </div>
+      <div class="panel-body">
+        <pre id="prompt">You have already cloned and built the WhaleEye project.
+You have already produced a truth audit report.
+So stop summarizing and start executing.
+
+This is not a cosmetic task.
+This is not a slide deck task.
+This is not a report-writing task.
+This is not a “phase explanation” task.
+
+This is now a full product rescue + institutional upgrade task.
+
+==================================================
+NON-NEGOTIABLE PRODUCT PHILOSOPHY
+==================================================
+
+We are building WhaleEye into an extraordinary, high-trust, real-time intelligence platform.
+
+I want:
+- real live data
+- real logic
+- real analysis
+- real signal integrity
+- real explainability
+- real speed
+- real architecture
+- real UI quality
+- real honesty
+
+I do NOT want:
+- fake AI
+- fake RL
+- fake institutional claims
+- fake smart money claims
+- fake live engine claims
+- duplicated content
+- placeholder panels
+- decorative complexity
+- shallow impressive-looking nonsense
+
+Truth is more important than hype.
+Trust is more important than visual noise.
+Clarity is more important than feature count.
+
+==================================================
+WHAT YOU ALREADY KNOW FROM YOUR AUDIT
+==================================================
+
+You already found that:
+- the project builds locally
+- frontend exists and is polished in parts
+- some analytical components are genuinely implemented
+- some logic is mathematically real but limited in scope
+- market data relies significantly on Binance REST polling rather than true live websocket behavior in some areas
+- RL panel is not truly connected to a real backend inference pipeline
+- some advanced-looking parts are partial / shallow / misleading
+- backtesting has limitations and may visually overstate realism
+- data quality gating has some genuine implementation
+
+Therefore:
+DO NOT pretend the current app is already institutional-grade.
+It is not.
+You must now turn it into something dramatically better, while removing illusion.
+
+==================================================
+YOUR MISSION NOW
+==================================================
+
+Take the existing WhaleEye codebase and transform it into a truly high-quality, truth-first, institutional-style intelligence platform.
+
+You must improve all of the following together:
+1. Product truthfulness
+2. Architecture quality
+3. Real-time data integrity
+4. Signal engine rigor
+5. Explainability
+6. UI/UX quality
+7. Visual hierarchy
+8. Panel consistency
+9. Alert quality
+10. Backtest honesty
+11. Data-source transparency
+12. Future readiness for premium institutional data
+
+==================================================
+ABSOLUTE RULES
+==================================================
+
+1. Do not rebuild randomly from scratch.
+2. Do not destroy what is already genuinely good.
+3. Do not keep fake or misleading features alive.
+4. Do not leave placeholder panels in the product.
+5. Do not use hardcoded fake numbers unless clearly labeled as mock/dev only.
+6. Do not claim live intelligence if it is polling-based or delayed without saying so.
+7. Do not claim institutional data if only public Binance data exists.
+8. Do not keep duplicated components, duplicated sections, or repeated content.
+9. Do not use “AI” wording unless the logic is real, connected, and explainable.
+10. If something is not ready, disable it gracefully and explicitly.
+
+==================================================
+PRIMARY DELIVERABLE
+==================================================
+
+I want a rebuilt WhaleEye that feels:
+- elite
+- precise
+- sharp
+- fast
+- honest
+- deeply analytical
+- visually stunning
+- bilingual
+- institutionally credible
+
+But every claim must be earned by actual implementation.
+
+==================================================
+PART 1 — REMOVE ALL ILLUSION
+==================================================
+
+Based on your audit and the broken live state, do the following first:
+
+1. Remove or disable every fake / misleading / shallow panel or feature.
+2. If RL is not truly wired to a real inference backend:
+   - either wire it properly
+   - or remove/disable it from the main UI
+   - or relabel it clearly as experimental local simulation
+3. If AI analysis is shallow or cosmetic:
+   - replace it with a real explanation engine
+   - or clearly label it as summary-only
+4. If any panel uses repeated content, placeholder text, duplicated JSX, or fake advanced language:
+   - remove and clean it immediately
+5. If any panel claims live streaming but uses polling:
+   - relabel it correctly or upgrade it to actual streaming
+6. If backtest/live correlation is inflated via synthetic injection:
+   - expose that honestly
+   - redesign the presentation to avoid misleading users
+
+I want a product that would rather say “not available yet” than lie.
+
+==================================================
+PART 2 — REAL DATA INTEGRITY UPGRADE
+==================================================
+
+You must upgrade the data layer toward true real-time reliability.
+
+Implement or improve:
+- actual websocket-first market data where feasible
+- proper feed freshness tracking
+- source-level health monitoring
+- stale detection
+- spread health monitoring
+- sample sufficiency checks
+- fallbacks when feed degrades
+- source metadata display
+- last updated timestamps across critical panels
+
+Create a clean data-source abstraction layer:
+- PublicExchangeFeedAdapter
+- WebsocketFeedManager
+- PollingFallbackManager
+- OnChainProviderAdapter
+- SmartMoneyProviderAdapter
+- DerivativesProviderAdapter
+- PremiumProviderRegistry
+
+If premium or on-chain feeds are not connected:
+- show them as unavailable
+- make the app architecture ready
+- do not fabricate data
+
+==================================================
+PART 3 — UNIFIED SIGNAL ENGINE
+==================================================
+
+Build or refactor a unified, modular signal engine.
+
+Required analyzers:
+- orderBookAnalyzer
+- tradeFlowAnalyzer
+- cvdAnalyzer
+- ofiAnalyzer
+- liquidityAnalyzer
+- wallsAnalyzer
+- smcAnalyzer
+- volatilityAnalyzer
+- regimeClassifier
+- confidenceEngine
+- qualityGate
+- explanationBuilder
+- alertDecisionEngine
+- forecastEngine
+
+Every analyzer must have:
+- typed inputs
+- typed outputs
+- score
+- confidence contribution
+- explanation
+- caveats
+- freshness awareness
+- failure-safe behavior
+
+==================================================
+PART 4 — REAL EXPLAINABILITY
+==================================================
+
+Every score and signal must be explainable.
+
+I want a unified explanation system that answers:
+- Why is the bias bullish/bearish/neutral?
+- Which components support it?
+- Which components contradict it?
+- How strong is the signal?
+- Why is confidence high or low?
+- Is the market regime clean or noisy?
+- What data is missing?
+- What should the user avoid doing right now?
+
+No vague generic commentary.
+No recycled text.
+No duplicated explanation blocks.
+
+==================================================
+PART 5 — FORECAST / DECISION SUPPORT
+==================================================
+
+Add a serious forecast layer, but keep it honest.
+
+I do NOT want magical prediction claims.
+I want probabilistic scenario guidance:
+- continuation probability
+- reversal probability
+- breakout watch
+- mean-reversion watch
+- trap risk
+- invalidation conditions
+- best execution context
+- avoid conditions
+
+This must be:
+- regime-aware
+- confidence-aware
+- quality-gated
+- explainable
+
+==================================================
+PART 6 — UI/UX RESCUE + INSTITUTIONAL REDESIGN
+==================================================
+
+The current UI has suffered from duplication, repeated content, and degraded structure.
+Rescue it and elevate it.
+
+Design direction:
+- dark, institutional, sharp, premium
+- Arabic-first with excellent bilingual support
+- less gaming-dashboard feel
+- more elite terminal feel
+- clearer hierarchy
+- less clutter
+- more trust
+- more whitespace discipline
+- better typography
+- better visual rhythm
+- high readability
+- numeric clarity
+- consistent panel structure
+
+Keep the WhaleEye identity, but refine it drastically.
+
+Do all of the following:
+1. Remove repeated content from all panels
+2. Remove placeholder text and noisy fallback blocks
+3. Create a clear top strip
+4. Create a strong hero metrics row
+5. Create a primary intelligence row
+6. Create a secondary diagnostics row
+7. Move tertiary / deeper tools below
+8. Make panel sizing coherent
+9. Use consistent headers, badges, timestamps, and footer caveats
+10. Improve spacing, contrast, and alignment
+11. Reduce visual noise and unnecessary glow
+12. Keep the interface readable even in grayscale
+
+==================================================
+PART 7 — REQUIRED LAYOUT STRUCTURE
+==================================================
+
+Organize the screen like this:
+
+1) Top strip:
+- platform name
+- symbol / pair
+- market status
+- feed health
+- last update
+- language
+- alerts/settings/report access
+
+2) Hero metrics strip:
+- current price
+- 24h change
+- 24h volume
+- high/low
+- spread health
+- trust / quality badge
+
+3) Primary intelligence row:
+- Institutional Engine
+- Order Book / Imbalance
+- Main Chart
+
+4) Secondary diagnostics row:
+- CVD
+- OFI
+- SMC
+- Liquidity / Stop Hunts
+- Walls
+
+5) Tertiary intelligence row:
+- Forecast / Decision Support
+- Alerts Intelligence
+- AI/Explainability Summary
+- Backtest Integrity
+- Settings / Audit controls
+
+No duplicated panels.
+No repeated text blocks.
+No giant empty spaces.
+No random ordering.
+
+==================================================
+PART 8 — PANEL STANDARDS
+==================================================
+
+Every panel must follow the same structure:
+
+Header:
+- title
+- concise subtitle
+- status badge
+- last updated
+
+Body:
+- compact metrics
+- one main visualization/list/table/summary
+- concise explanation
+- no repeated sections
+
+Footer:
+- caveat / source / quality note if needed
+
+Each panel must have:
+- loading state
+- empty state
+- error state
+- stale state if applicable
+
+==================================================
+PART 9 — SPECIFIC PANEL REQUIREMENTS
+==================================================
+
+Institutional Engine:
+- composite score
+- bias
+- confidence
+- regime
+- top drivers
+- contradiction note
+- execution stance
+- no duplicated explanation
+
+Order Book / Imbalance:
+- near-mid imbalance
+- weighted imbalance
+- spread
+- microprice
+- strongest walls
+- compact visual
+
+CVD:
+- cumulative delta
+- rolling delta
+- trend
+- divergence
+- concise interpretation
+
+OFI:
+- real OFI if implemented properly
+- otherwise disable professionally
+- no placeholder allowed
+
+SMC:
+- BOS / CHOCH
+- active FVG
+- active order blocks
+- direction
+- invalidation level
+- concise event log
+
+Liquidity:
+- top liquidity zones
+- above/below liquidity
+- sweep risk
+- stop-hunt interpretation
+- no repeated phrases
+
+Walls:
+- strongest buy/sell walls
+- notional strength
+- persistence
+- distance from price
+
+Forecast:
+- continuation probability
+- reversal probability
+- breakout watch
+- trap risk
+- invalidation
+- best context
+
+Alerts:
+- meaningful alerts only
+- no spam
+- severity
+- why triggered
+- expiry / decay
+- confirmation state
+
+AI / Explainability panel:
+- only if real
+- must summarize actual data
+- must not hallucinate
+- must not repeat the same explanation already shown everywhere else
+
+Backtest:
+- honest assumptions
+- visible limitations
+- no fake precision
+- no misleading live comparison
+
+==================================================
+PART 10 — CHART UPGRADE
+==================================================
+
+Upgrade the chart into a serious analytical layer.
+
+Support overlays such as:
+- walls
+- support/resistance
+- liquidity zones
+- equal highs/lows
+- FVG
+- order blocks
+- BOS / CHOCH
+- microprice / VWAP if valid
+- alert/event markers
+
+But:
+- make overlays toggleable
+- keep performance high
+- prevent clutter
+- maintain mobile fallback
+
+==================================================
+PART 11 — PREMIUM / INSTITUTIONAL READINESS
+==================================================
+
+Prepare the architecture for future real premium integrations:
+- whale wallets
+- smart money flows
+- labeled wallets
+- exchange inflow/outflow
+- stablecoin deployment
+- open interest
+- funding
+- liquidations
+- premium order flow feeds
+
+Build the abstraction now even if not all providers are connected.
+
+Clearly separate in the UI:
+- Public Exchange Intelligence
+- On-Chain Intelligence
+- Smart Money Tracking
+- Derivatives Intelligence
+- Premium Institutional Feeds
+
+If unavailable:
+- say unavailable
+- do not fake anything
+
+==================================================
+PART 12 — TESTING AND TRUST
+==================================================
+
+Add or improve tests for:
+- signal engine calculations
+- confidence engine
+- quality gate
+- regime classification
+- explanation generation
+- websocket/polling feed behavior
+- panel state correctness
+- duplicate rendering prevention
+- settings persistence
+
+Also verify visually that:
+- no duplicated content remains
+- no placeholder remains
+- no panel renders twice
+- no fake label remains
+- no misleading wording remains
+
+==================================================
+PART 13 — EXECUTION PLAN
+==================================================
+
+Do the work in this exact order:
+
+1. Remove fake/misleading/duplicated UI and logic
+2. Stabilize data flow and feed integrity
+3. Refactor unified signal engine
+4. Refactor explanation system
+5. Rebuild panel structure and layout
+6. Upgrade chart overlays
+7. Improve alerts and forecast
+8. Improve backtest honesty
+9. Add premium-ready adapters
+10. Final design polish
+11. Final trust audit
+
+==================================================
+PART 14 — OUTPUT I WANT FROM YOU
+==================================================
+
+Do not send me long narrative essays.
+
+Before implementation:
+Give me only:
+- the exact files you will modify
+- the exact fake/misleading things you will remove or relabel
+- the exact panels you will rebuild first
+
+Then execute.
+
+After implementation:
+Give me only:
+1. what was removed
+2. what was rebuilt
+3. what became truly live
+4. what remains unavailable
+5. what is now clearly labeled
+6. what still needs future premium data
+
+==================================================
+FINAL COMMAND
+==================================================
+
+Start now from the existing WhaleEye codebase.
+Use your own audit findings.
+Do not waste time re-explaining the project.
+Do not make new claims without implementation.
+
+I want WhaleEye transformed into something:
+- stunning
+- rigorous
+- deeply analytical
+- real-time
+- clean
+- elite
+- trustworthy
+- and completely free of illusion
+
+Start executing now.</pre>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function copyPrompt(){
+      const txt = document.getElementById('prompt').innerText;
+      navigator.clipboard.writeText(txt).then(()=>{
+        const btn = document.querySelector('.primary');
+        const old = btn.textContent;
+        btn.textContent = 'تم النسخ';
+        setTimeout(()=>btn.textContent = old, 1500);
+      });
+    }
+
+    function downloadPrompt(){
+      const txt = document.getElementById('prompt').innerText;
+      const blob = new Blob([txt], {type:'text/plain;charset=utf-8'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'WhaleEye-final-manus-prompt.txt';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(a.href);
+    }
+
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach((entry)=>{
+        if(entry.isIntersecting){
+          entry.target.animate(
+            [
+              {opacity:0, transform:'translateY(18px)'},
+              {opacity:1, transform:'translateY(0)'}
+            ],
+            {duration:700, easing:'cubic-bezier(.2,.8,.2,1)', fill:'forwards'}
+          );
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.12});
+
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  </script>
+</body>
+</html>
